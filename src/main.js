@@ -75,20 +75,28 @@ function highlightObject(object) {
 
   // Remove previous highlight
   if (selectedRing) {
-    scene.remove(selectedRing);
+    selectedRing.parent?.remove(selectedRing);
+
     selectedRing.geometry.dispose();
     selectedRing.material.dispose();
+
+    selectedRing = null;
   }
 
+  // Create highlight ring
   const ringGeometry =
-    new THREE.RingGeometry(0.35, 0.45, 32);
+    new THREE.TorusGeometry(
+      0.35,
+      0.035,
+      16,
+      64
+    );
 
   const ringMaterial =
     new THREE.MeshBasicMaterial({
       color: 0x66ccff,
       transparent: true,
-      opacity: 0.9,
-      side: THREE.DoubleSide
+      opacity: 0.9
     });
 
   selectedRing =
@@ -97,14 +105,11 @@ function highlightObject(object) {
       ringMaterial
     );
 
-  selectedRing.position.copy(
-    object.position
-  );
-
   selectedRing.rotation.x =
     Math.PI / 2;
 
-  scene.add(selectedRing);
+  // Attach ring to selected object
+  object.add(selectedRing);
 }
 
 function focusOnObject(object) {
@@ -126,6 +131,7 @@ function focusOnObject(object) {
 
   isCameraFocusing = true;
 }
+
 
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
@@ -959,7 +965,7 @@ objectLabels.forEach(
 );
 
   if (selectedRing) {
-  selectedRing.rotation.z += 0.02;
+  selectedRing.rotation.z += 0.03;
 }
 
 
