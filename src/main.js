@@ -67,6 +67,43 @@ const controls = new OrbitControls(
 
 let cameraTargetPosition = null;
 let cameraLookAtTarget = null;
+let selectedRing = null;
+
+function highlightObject(object) {
+
+  // Remove previous highlight
+  if (selectedRing) {
+    scene.remove(selectedRing);
+    selectedRing.geometry.dispose();
+    selectedRing.material.dispose();
+  }
+
+  const ringGeometry =
+    new THREE.RingGeometry(0.35, 0.45, 32);
+
+  const ringMaterial =
+    new THREE.MeshBasicMaterial({
+      color: 0x66ccff,
+      transparent: true,
+      opacity: 0.9,
+      side: THREE.DoubleSide
+    });
+
+  selectedRing =
+    new THREE.Mesh(
+      ringGeometry,
+      ringMaterial
+    );
+
+  selectedRing.position.copy(
+    object.position
+  );
+
+  selectedRing.rotation.x =
+    Math.PI / 2;
+
+  scene.add(selectedRing);
+}
 
 function focusOnObject(object) {
 
@@ -594,6 +631,13 @@ window.addEventListener(
           ${data.magnitude}
         </p>
       `;
+      highlightObject(
+  selectedObject
+);
+
+focusOnObject(
+  selectedObject
+);
     }
   }
 );
@@ -757,7 +801,10 @@ searchInput.addEventListener(
                 1.5,
                 1.5
               );
+
               focusOnObject(selectedObject);
+
+              highlightObject(selectedObject);
             }
 
             searchResults.innerHTML =
@@ -817,6 +864,10 @@ function animate() {
 
   galaxy.rotation.y +=
     0.0005;
+
+  if (selectedRing) {
+  selectedRing.rotation.z += 0.02;
+}
 
 
   if (cameraTargetPosition) {
