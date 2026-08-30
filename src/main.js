@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import './style.css';
 
 const scene = new THREE.Scene();
@@ -22,6 +23,11 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 document.body.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
 
 // --------------------
 // Sun
@@ -125,6 +131,8 @@ function animate() {
   earth.rotation.y += 0.02;
   mars.rotation.y += 0.015;
   jupiter.rotation.y += 0.01;
+
+  controls.update();
 
   renderer.render(scene, camera);
 }
