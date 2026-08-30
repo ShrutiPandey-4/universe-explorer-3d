@@ -2,7 +2,6 @@ import * as THREE from 'three';
 import './style.css';
 
 const scene = new THREE.Scene();
-
 scene.background = new THREE.Color(0x000000);
 
 const camera = new THREE.PerspectiveCamera(
@@ -12,7 +11,8 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 
-camera.position.z = 5;
+camera.position.set(0, 8, 15);
+camera.lookAt(0, 0, 0);
 
 const renderer = new THREE.WebGLRenderer({
   antialias: true
@@ -23,32 +23,118 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 document.body.appendChild(renderer.domElement);
 
-// Star
-const starGeometry = new THREE.SphereGeometry(1, 32, 32);
+// --------------------
+// Sun
+// --------------------
 
-const starMaterial = new THREE.MeshBasicMaterial({
-  color: 0xffdd66
+const sunGeometry = new THREE.SphereGeometry(2, 32, 32);
+
+const sunMaterial = new THREE.MeshBasicMaterial({
+  color: 0xffcc33
 });
 
-const star = new THREE.Mesh(
-  starGeometry,
-  starMaterial
+const sun = new THREE.Mesh(
+  sunGeometry,
+  sunMaterial
 );
 
-scene.add(star);
+scene.add(sun);
 
+// --------------------
+// Earth
+// --------------------
+
+const earthOrbit = new THREE.Group();
+
+scene.add(earthOrbit);
+
+const earthGeometry = new THREE.SphereGeometry(0.7, 32, 32);
+
+const earthMaterial = new THREE.MeshBasicMaterial({
+  color: 0x3388ff
+});
+
+const earth = new THREE.Mesh(
+  earthGeometry,
+  earthMaterial
+);
+
+earth.position.x = 5;
+
+earthOrbit.add(earth);
+
+// --------------------
+// Mars
+// --------------------
+
+const marsOrbit = new THREE.Group();
+
+scene.add(marsOrbit);
+
+const marsGeometry = new THREE.SphereGeometry(0.45, 32, 32);
+
+const marsMaterial = new THREE.MeshBasicMaterial({
+  color: 0xdd5533
+});
+
+const mars = new THREE.Mesh(
+  marsGeometry,
+  marsMaterial
+);
+
+mars.position.x = 7;
+
+marsOrbit.add(mars);
+
+// --------------------
+// Jupiter
+// --------------------
+
+const jupiterOrbit = new THREE.Group();
+
+scene.add(jupiterOrbit);
+
+const jupiterGeometry = new THREE.SphereGeometry(1.1, 32, 32);
+
+const jupiterMaterial = new THREE.MeshBasicMaterial({
+  color: 0xddaa77
+});
+
+const jupiter = new THREE.Mesh(
+  jupiterGeometry,
+  jupiterMaterial
+);
+
+jupiter.position.x = 9;
+
+jupiterOrbit.add(jupiter);
+
+// --------------------
 // Animation
+// --------------------
+
 function animate() {
   requestAnimationFrame(animate);
 
-  star.rotation.y += 0.005;
+  // Rotate planets around the Sun
+  earthOrbit.rotation.y += 0.01;
+  marsOrbit.rotation.y += 0.007;
+  jupiterOrbit.rotation.y += 0.004;
+
+  // Rotate planets on their own axis
+  earth.rotation.y += 0.02;
+  mars.rotation.y += 0.015;
+  jupiter.rotation.y += 0.01;
 
   renderer.render(scene, camera);
 }
 
 animate();
 
-// Responsive screen
+// --------------------
+// Responsive
+// --------------------
+
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
