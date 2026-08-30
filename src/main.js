@@ -236,6 +236,52 @@ jupiter.position.x = 9;
 jupiterOrbit.add(jupiter);
 
 // --------------------
+// Object Selection
+// --------------------
+
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+// Information Panel
+const infoPanel = document.createElement('div');
+
+infoPanel.className = 'info-panel';
+
+infoPanel.innerHTML = `
+  <h2>Select an object</h2>
+  <p>Click a celestial object to explore it.</p>
+`;
+
+document.body.appendChild(infoPanel);
+
+// Click detection
+window.addEventListener('click', (event) => {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+
+  const intersects = raycaster.intersectObjects(
+    celestialGroup.children
+  );
+
+  if (intersects.length > 0) {
+    const selectedObject = intersects[0].object;
+    const data = selectedObject.userData;
+
+    infoPanel.innerHTML = `
+      <h2>${data.name}</h2>
+      <p><strong>Type:</strong> ${data.type}</p>
+      <p><strong>Distance:</strong> ${data.distance}</p>
+      <p><strong>Redshift:</strong> ${data.redshift}</p>
+      <p><strong>Magnitude:</strong> ${data.magnitude}</p>
+    `;
+  }
+});
+
+scene.add(celestialGroup);
+
+// --------------------
 // Animation
 // --------------------
 

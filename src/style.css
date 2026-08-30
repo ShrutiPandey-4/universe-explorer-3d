@@ -15,3 +15,29 @@ body {
 canvas {
   display: block;
 }
+
+.info-panel {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 280px;
+  padding: 20px;
+
+  background: rgba(10, 15, 30, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+
+  color: white;
+  font-family: Arial, sans-serif;
+
+  backdrop-filter: blur(10px);
+}
+
+.info-panel h2 {
+  margin-bottom: 15px;
+}
+
+.info-panel p {
+  margin: 8px 0;
+  font-size: 14px;
+}
