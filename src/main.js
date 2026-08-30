@@ -30,6 +30,39 @@ controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 
 // --------------------
+// Star Field
+// --------------------
+
+const starCount = 10000;
+
+const starPositions = new Float32Array(starCount * 3);
+
+for (let i = 0; i < starCount * 3; i += 3) {
+  starPositions[i] = (Math.random() - 0.5) * 100;
+  starPositions[i + 1] = (Math.random() - 0.5) * 100;
+  starPositions[i + 2] = (Math.random() - 0.5) * 100;
+}
+
+const starGeometry = new THREE.BufferGeometry();
+
+starGeometry.setAttribute(
+  'position',
+  new THREE.BufferAttribute(starPositions, 3)
+);
+
+const starMaterial = new THREE.PointsMaterial({
+  color: 0xffffff,
+  size: 0.08
+});
+
+const stars = new THREE.Points(
+  starGeometry,
+  starMaterial
+);
+
+scene.add(stars);
+
+// --------------------
 // Sun
 // --------------------
 
