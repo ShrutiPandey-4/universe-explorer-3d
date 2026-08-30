@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import celestialObjects from './data/celestialObjects.js';
 import './style.css';
 
 const scene = new THREE.Scene();
@@ -116,6 +117,37 @@ const galaxy = new THREE.Points(
 );
 
 scene.add(galaxy);
+
+// --------------------
+// Celestial Objects
+// --------------------
+
+const celestialGroup = new THREE.Group();
+
+celestialObjects.forEach((object, index) => {
+  const geometry = new THREE.SphereGeometry(0.18, 16, 16);
+
+  const material = new THREE.MeshBasicMaterial({
+    color: 0xffffff
+  });
+
+  const marker = new THREE.Mesh(
+    geometry,
+    material
+  );
+
+  const angle = (index / celestialObjects.length) * Math.PI * 2;
+  const radius = 6;
+
+  marker.position.x = Math.cos(angle) * radius;
+  marker.position.z = Math.sin(angle) * radius;
+
+  marker.userData = object;
+
+  celestialGroup.add(marker);
+});
+
+scene.add(celestialGroup);
 
 // --------------------
 // Sun
