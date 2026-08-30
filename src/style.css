@@ -16,37 +16,16 @@ canvas {
   display: block;
 }
 
-.info-panel {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  width: 280px;
-  padding: 20px;
 
-  background: rgba(10, 15, 30, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-
-  color: white;
-  font-family: Arial, sans-serif;
-
-  backdrop-filter: blur(10px);
-}
-
-.info-panel h2 {
-  margin-bottom: 15px;
-}
-
-.info-panel p {
-  margin: 8px 0;
-  font-size: 14px;
-}
+/* =========================
+   TITLE
+========================= */
 
 .title {
   position: fixed;
-  top: 24px;
-  left: 28px;
-  z-index: 10;
+  top: 45px;
+  left: 50px;
+  z-index: 20;
 
   color: white;
   font-family: Arial, sans-serif;
@@ -55,75 +34,137 @@ canvas {
 }
 
 .title h1 {
-  font-size: 26px;
-  margin-bottom: 6px;
+  margin: 0 0 20px;
+
+  font-size: 112px;
+  font-weight: 700;
+  letter-spacing: -2px;
 }
 
 .title p {
-  font-size: 13px;
-  opacity: 0.65;
+  margin: 0;
+
+  font-size: 40px;
+  opacity: 0.75;
 }
 
+
+/* =========================
+   STATISTICS
+========================= */
 
 .stats {
   position: fixed;
-  top: 28px;
-  right: 28px;
-  z-index: 10;
+  top: 45px;
+  right: 50px;
+  z-index: 20;
 
   display: flex;
-  gap: 10px;
+  gap: 25px;
 
   color: white;
   font-family: Arial, sans-serif;
-  font-size: 12px;
 }
 
 .stats span {
-  padding: 8px 12px;
+  padding: 25px 35px;
 
-  background: rgba(10, 15, 30, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(10, 15, 30, 0.92);
+  border: 2px solid rgba(255, 255, 255, 0.25);
 
-  border-radius: 20px;
+  border-radius: 50px;
 
-  backdrop-filter: blur(10px);
+  font-size: 36px;
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  backdrop-filter: blur(12px);
 }
 
 
-.controls-panel {
+/* =========================
+   INFORMATION PANEL
+========================= */
+
+.info-panel {
   position: fixed;
-  bottom: 24px;
-  left: 28px;
-  z-index: 10;
+  top: 250px;
+  right: 50px;
+  z-index: 20;
 
-  padding: 15px;
+  width: 700px;
+  padding: 45px;
 
-  background: rgba(10, 15, 30, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(10, 15, 30, 0.94);
 
-  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+
+  border-radius: 30px;
 
   color: white;
   font-family: Arial, sans-serif;
 
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(14px);
+}
+
+.info-panel h2 {
+  margin: 0 0 30px;
+
+  font-size: 60px;
+  font-weight: 700;
+}
+
+.info-panel p {
+  margin: 20px 0;
+
+  font-size: 36px;
+  line-height: 1.5;
+}
+
+
+/* =========================
+   CONTROLS PANEL
+========================= */
+
+.controls-panel {
+  position: fixed;
+  bottom: 50px;
+  left: 50px;
+  z-index: 20;
+
+  width: 420px;
+  padding: 40px;
+
+  background: rgba(10, 15, 30, 0.92);
+
+  border: 2px solid rgba(255, 255, 255, 0.25);
+
+  border-radius: 30px;
+
+  color: white;
+  font-family: Arial, sans-serif;
+
+  backdrop-filter: blur(12px);
 }
 
 .controls-panel button {
-  padding: 8px 14px;
+  width: 100%;
 
-  margin-bottom: 10px;
+  padding: 25px 30px;
+
+  margin-bottom: 30px;
 
   border: none;
-  border-radius: 8px;
+  border-radius: 18px;
 
   background: white;
   color: black;
 
   cursor: pointer;
 
-  font-weight: bold;
+  font-size: 34px;
+  font-weight: 700;
 }
 
 .controls-panel button:hover {
@@ -131,35 +172,139 @@ canvas {
 }
 
 .controls-panel p {
-  margin: 4px 0;
+  margin: 18px 0;
 
-  font-size: 12px;
-  opacity: 0.7;
+  font-size: 32px;
+  opacity: 0.8;
 }
 
 
-@media (max-width: 700px) {
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 1200px) {
+
   .title h1 {
+    font-size: 72px;
+  }
+
+  .title p {
+    font-size: 28px;
+  }
+
+  .stats {
+    gap: 12px;
+  }
+
+  .stats span {
+    padding: 15px 20px;
+    font-size: 22px;
+  }
+
+  .info-panel {
+    top: 150px;
+    width: 500px;
+    padding: 30px;
+  }
+
+  .info-panel h2 {
+    font-size: 40px;
+  }
+
+  .info-panel p {
+    font-size: 24px;
+  }
+
+  .controls-panel {
+    width: 280px;
+    padding: 25px;
+  }
+
+  .controls-panel button {
+    font-size: 22px;
+  }
+
+  .controls-panel p {
     font-size: 20px;
+  }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+  .title {
+    top: 18px;
+    left: 18px;
+  }
+
+  .title h1 {
+    font-size: 36px;
+    letter-spacing: -1px;
+  }
+
+  .title p {
+    font-size: 16px;
   }
 
   .stats {
     top: 80px;
-    left: 20px;
+    left: 18px;
     right: auto;
 
     flex-direction: column;
+    gap: 8px;
   }
 
-  .controls-panel {
-    left: 15px;
-    bottom: 15px;
+  .stats span {
+    padding: 10px 14px;
+    font-size: 14px;
+    border-radius: 20px;
   }
 
   .info-panel {
     top: auto;
     right: 15px;
     bottom: 15px;
-    width: 240px;
+
+    width: 280px;
+    padding: 20px;
+
+    border-radius: 15px;
+  }
+
+  .info-panel h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+
+  .info-panel p {
+    font-size: 15px;
+    margin: 8px 0;
+  }
+
+  .controls-panel {
+    left: 15px;
+    bottom: 15px;
+
+    width: 180px;
+    padding: 15px;
+
+    border-radius: 12px;
+  }
+
+  .controls-panel button {
+    font-size: 14px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .controls-panel p {
+    font-size: 13px;
+    margin: 6px 0;
   }
 }
