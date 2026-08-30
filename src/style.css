@@ -41,3 +41,125 @@ canvas {
   margin: 8px 0;
   font-size: 14px;
 }
+
+.title {
+  position: fixed;
+  top: 24px;
+  left: 28px;
+  z-index: 10;
+
+  color: white;
+  font-family: Arial, sans-serif;
+
+  pointer-events: none;
+}
+
+.title h1 {
+  font-size: 26px;
+  margin-bottom: 6px;
+}
+
+.title p {
+  font-size: 13px;
+  opacity: 0.65;
+}
+
+
+.stats {
+  position: fixed;
+  top: 28px;
+  right: 28px;
+  z-index: 10;
+
+  display: flex;
+  gap: 10px;
+
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+}
+
+.stats span {
+  padding: 8px 12px;
+
+  background: rgba(10, 15, 30, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  border-radius: 20px;
+
+  backdrop-filter: blur(10px);
+}
+
+
+.controls-panel {
+  position: fixed;
+  bottom: 24px;
+  left: 28px;
+  z-index: 10;
+
+  padding: 15px;
+
+  background: rgba(10, 15, 30, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  border-radius: 12px;
+
+  color: white;
+  font-family: Arial, sans-serif;
+
+  backdrop-filter: blur(10px);
+}
+
+.controls-panel button {
+  padding: 8px 14px;
+
+  margin-bottom: 10px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: white;
+  color: black;
+
+  cursor: pointer;
+
+  font-weight: bold;
+}
+
+.controls-panel button:hover {
+  opacity: 0.8;
+}
+
+.controls-panel p {
+  margin: 4px 0;
+
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+
+@media (max-width: 700px) {
+  .title h1 {
+    font-size: 20px;
+  }
+
+  .stats {
+    top: 80px;
+    left: 20px;
+    right: auto;
+
+    flex-direction: column;
+  }
+
+  .controls-panel {
+    left: 15px;
+    bottom: 15px;
+  }
+
+  .info-panel {
+    top: auto;
+    right: 15px;
+    bottom: 15px;
+    width: 240px;
+  }
+}

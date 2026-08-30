@@ -302,6 +302,57 @@ window.addEventListener('click', (event) => {
 scene.add(celestialGroup);
 
 // --------------------
+// Interface
+// --------------------
+
+const title = document.createElement('div');
+
+title.className = 'title';
+
+title.innerHTML = `
+  <h1>🌌 Universe Explorer</h1>
+  <p>Interactive 3D Cosmic Visualization</p>
+`;
+
+document.body.appendChild(title);
+
+
+const stats = document.createElement('div');
+
+stats.className = 'stats';
+
+stats.innerHTML = `
+  <span>⭐ ${starCount.toLocaleString()} Stars</span>
+  <span>🌌 ${galaxyCount.toLocaleString()} Galaxy Particles</span>
+`;
+
+document.body.appendChild(stats);
+
+
+const controlsPanel = document.createElement('div');
+
+controlsPanel.className = 'controls-panel';
+
+controlsPanel.innerHTML = `
+  <button id="reset-camera">Reset View</button>
+  <p>🖱 Drag to rotate</p>
+  <p>🔍 Scroll to zoom</p>
+`;
+
+document.body.appendChild(controlsPanel);
+
+
+document
+  .getElementById('reset-camera')
+  .addEventListener('click', () => {
+    camera.position.set(0, 8, 15);
+
+    controls.target.set(0, 0, 0);
+
+    controls.update();
+  });
+
+// --------------------
 // Animation
 // --------------------
 
