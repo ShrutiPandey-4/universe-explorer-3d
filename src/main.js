@@ -1,6 +1,10 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import celestialObjects from './data/celestialObjects.js';
+
+import starVertexShader from './shaders/star.vert?raw';
+import starFragmentShader from './shaders/star.frag?raw';
+
 import './style.css';
 
 const scene = new THREE.Scene();
@@ -104,11 +108,27 @@ galaxyGeometry.setAttribute(
   new THREE.BufferAttribute(galaxyPositions, 3)
 );
 
-const galaxyMaterial = new THREE.PointsMaterial({
-  color: 0x9bbcff,
-  size: 0.06,
+const galaxyMaterial = new THREE.ShaderMaterial({
+  vertexShader: starVertexShader,
+  fragmentShader: starFragmentShader,
+
+  uniforms: {
+    uSize: {
+      value: 0.12
+    },
+
+    uColor: {
+      value: new THREE.Color(0x9bbcff)
+    },
+
+    uOpacity: {
+      value: 0.9
+    }
+  },
+
   transparent: true,
-  opacity: 0.85
+  depthWrite: false,
+  blending: THREE.AdditiveBlending
 });
 
 const galaxy = new THREE.Points(
