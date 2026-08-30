@@ -61,6 +61,31 @@ const controls = new OrbitControls(
   renderer.domElement
 );
 
+// ====================
+// Camera Focus Animation
+// ====================
+
+let cameraTargetPosition = null;
+let cameraLookAtTarget = null;
+
+function focusOnObject(object) {
+
+  const worldPosition =
+    new THREE.Vector3();
+
+  object.getWorldPosition(
+    worldPosition
+  );
+
+  cameraTargetPosition =
+    worldPosition.clone().add(
+      new THREE.Vector3(3, 2, 5)
+    );
+
+  cameraLookAtTarget =
+    worldPosition.clone();
+}
+
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 
@@ -732,6 +757,7 @@ searchInput.addEventListener(
                 1.5,
                 1.5
               );
+              focusOnObject(selectedObject);
             }
 
             searchResults.innerHTML =
@@ -792,6 +818,22 @@ function animate() {
   galaxy.rotation.y +=
     0.0005;
 
+
+  if (cameraTargetPosition) {
+
+  camera.position.lerp(
+    cameraTargetPosition,
+    0.05
+  );
+
+  if (cameraLookAtTarget) {
+
+    controls.target.lerp(
+      cameraLookAtTarget,
+      0.05
+    );
+  }
+}
 
   controls.update();
 
