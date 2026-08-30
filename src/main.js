@@ -68,6 +68,8 @@ const controls = new OrbitControls(
 let cameraTargetPosition = null;
 let cameraLookAtTarget = null;
 let selectedRing = null;
+let objectLabels = [];
+let isCameraFocusing = false;
 
 function highlightObject(object) {
 
@@ -121,10 +123,21 @@ function focusOnObject(object) {
 
   cameraLookAtTarget =
     worldPosition.clone();
+
+  isCameraFocusing = true;
 }
 
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
+
+controls.addEventListener(
+  'start',
+  () => {
+    isCameraFocusing = false;
+    cameraTargetPosition = null;
+    cameraLookAtTarget = null;
+  }
+);
 
 
 // Save initial camera position
@@ -328,6 +341,34 @@ celestialObjects.forEach(
 );
 
 scene.add(celestialGroup);
+
+// ====================
+// Object Labels
+// ====================
+
+celestialObjects.forEach(
+  (object, index) => {
+
+    const label =
+      document.createElement('div');
+
+    label.className =
+      'object-label';
+
+    label.textContent =
+      object.name;
+
+    document.body.appendChild(
+      label
+    );
+
+    objectLabels.push({
+      element: label,
+      object:
+        celestialGroup.children[index]
+    });
+  }
+);
 
 
 // ====================
@@ -865,12 +906,67 @@ function animate() {
   galaxy.rotation.y +=
     0.0005;
 
+// ====================
+// Update Object Labels
+// ====================
+
+objectLabels.forEach(
+  (labelData) => {
+
+    const position =
+      new THREE.Vector3();
+
+    labelData.object.getWorldPosition(
+      position
+    );
+
+    // Put label slightly above object
+    position.y += 0.5;
+
+    position.project(camera);
+
+    const x =
+      (position.x * 0.5 + 0.5) *
+      window.innerWidth;
+
+    const y =
+      (-position.y * 0.5 + 0.5) *
+      window.innerHeight;
+
+    const isVisible =
+      position.z > -1 &&
+      position.z < 1 &&
+      Math.abs(position.x) < 1 &&
+      Math.abs(position.y) < 1;
+
+    if (isVisible) {
+
+      labelData.element.style.display =
+        'block';
+
+      labelData.element.style.left =
+        `${x}px`;
+
+      labelData.element.style.top =
+        `${y}px`;
+
+    } else {
+
+      labelData.element.style.display =
+        'none';
+    }
+  }
+);
+
   if (selectedRing) {
   selectedRing.rotation.z += 0.02;
 }
 
 
-  if (cameraTargetPosition) {
+  if (
+  isCameraFocusing &&
+  cameraTargetPosition
+) {
 
   camera.position.lerp(
     cameraTargetPosition,
@@ -883,6 +979,26 @@ function animate() {
       cameraLookAtTarget,
       0.05
     );
+  }
+
+  // Stop automatic focus when camera reaches target
+  if (
+    camera.position.distanceTo(
+      cameraTargetPosition
+    ) < 0.05
+  ) {
+
+    camera.position.copy(
+      cameraTargetPosition
+    );
+
+    controls.target.copy(
+      cameraLookAtTarget
+    );
+
+    isCameraFocusing = false;
+    cameraTargetPosition = null;
+    cameraLookAtTarget = null;
   }
 }
 
