@@ -63,6 +63,61 @@ const stars = new THREE.Points(
 scene.add(stars);
 
 // --------------------
+// Spiral Galaxy
+// --------------------
+
+const galaxyCount = 30000;
+const galaxyPositions = new Float32Array(galaxyCount * 3);
+
+const arms = 4;
+const galaxyRadius = 15;
+
+for (let i = 0; i < galaxyCount; i++) {
+  const i3 = i * 3;
+
+  const radius = Math.random() * galaxyRadius;
+
+  const armAngle =
+    (i % arms) * (Math.PI * 2 / arms);
+
+  const spiralAngle =
+    armAngle + radius * 0.45;
+
+  const spread =
+    (Math.random() - 0.5) * 1.2;
+
+  galaxyPositions[i3] =
+    Math.cos(spiralAngle) * radius + spread;
+
+  galaxyPositions[i3 + 1] =
+    (Math.random() - 0.5) * 0.8;
+
+  galaxyPositions[i3 + 2] =
+    Math.sin(spiralAngle) * radius + spread;
+}
+
+const galaxyGeometry = new THREE.BufferGeometry();
+
+galaxyGeometry.setAttribute(
+  'position',
+  new THREE.BufferAttribute(galaxyPositions, 3)
+);
+
+const galaxyMaterial = new THREE.PointsMaterial({
+  color: 0x9bbcff,
+  size: 0.06,
+  transparent: true,
+  opacity: 0.85
+});
+
+const galaxy = new THREE.Points(
+  galaxyGeometry,
+  galaxyMaterial
+);
+
+scene.add(galaxy);
+
+// --------------------
 // Sun
 // --------------------
 
@@ -164,6 +219,8 @@ function animate() {
   earth.rotation.y += 0.02;
   mars.rotation.y += 0.015;
   jupiter.rotation.y += 0.01;
+
+  galaxy.rotation.y += 0.0005;
 
   controls.update();
 
