@@ -383,10 +383,9 @@ const sunGeometry =
     32
   );
 
-const sunMaterial =
-  new THREE.MeshBasicMaterial({
-    color: 0xffcc33
-  });
+const sunMaterial = new THREE.MeshBasicMaterial({
+  color: 0xffd54a
+});
 
 const sun =
   new THREE.Mesh(
@@ -400,29 +399,26 @@ scene.add(sun);
 // Sun Glow
 // ====================
 
-const sunGlowGeometry =
-  new THREE.SphereGeometry(
-    2.35,
-    32,
-    32
-  );
+const sunGlowGeometry = new THREE.SphereGeometry(
+  2.25,
+  32,
+  32
+);
 
-const sunGlowMaterial =
-  new THREE.MeshBasicMaterial({
-    color: 0xffaa33,
-    transparent: true,
-    opacity: 0.18,
-    depthWrite: false
-  });
+const sunGlowMaterial = new THREE.MeshBasicMaterial({
+  color: 0xffdd55,
+  transparent: true,
+  opacity: 0.12,
+  depthWrite: false,
+  blending: THREE.AdditiveBlending
+});
 
-const sunGlow =
-  new THREE.Mesh(
-    sunGlowGeometry,
-    sunGlowMaterial
-  );
+const sunGlow = new THREE.Mesh(
+  sunGlowGeometry,
+  sunGlowMaterial
+);
 
 scene.add(sunGlow);
-
 // ====================
 // Lighting
 // ====================
@@ -430,15 +426,15 @@ scene.add(sunGlow);
 const ambientLight =
   new THREE.AmbientLight(
     0xffffff,
-    0.35
+    0.7
   );
 
 scene.add(ambientLight);
 
 const sunLight =
   new THREE.PointLight(
-    0xffffff,
-    2.5,
+    0xfff4d6,
+    3,
     100
   );
 
@@ -468,9 +464,11 @@ const earthGeometry =
 
 const earthMaterial =
   new THREE.MeshStandardMaterial({
-    color: 0x2878d8,
-    roughness: 0.7,
-    metalness: 0.05
+    color: 0x2288ff,
+    roughness: 0.55,
+    metalness: 0.0,
+    emissive: 0x06204d,
+    emissiveIntensity: 0.35
   });
 
 const earth =
@@ -496,11 +494,12 @@ const atmosphereGeometry =
 
 const atmosphereMaterial =
   new THREE.MeshBasicMaterial({
-    color: 0x55aaff,
+    color: 0x3399ff,
     transparent: true,
-    opacity: 0.18,
+    opacity: 0.22,
     side: THREE.BackSide,
-    depthWrite: false
+    depthWrite: false,
+    blending: THREE.AdditiveBlending
   });
 
 const atmosphere =
@@ -1004,14 +1003,6 @@ function animate() {
   galaxy.rotation.y +=
     0.0005;
 
-  sunGlow.scale.x =
-  1 + Math.sin(Date.now() * 0.002) * 0.02;
-
-sunGlow.scale.y =
-  1 + Math.sin(Date.now() * 0.002) * 0.02;
-
-sunGlow.scale.z =
-  1 + Math.sin(Date.now() * 0.002) * 0.02;  
 
   // Rotate highlight ring
   if (selectedRing) {
