@@ -7,15 +7,12 @@ import starFragmentShader from './shaders/star.frag?raw';
 
 import './style.css';
 
-
 // ====================
 // Scene
 // ====================
 
 const scene = new THREE.Scene();
-
 scene.background = new THREE.Color(0x000000);
-
 
 // ====================
 // Camera
@@ -30,7 +27,6 @@ const camera = new THREE.PerspectiveCamera(
 
 camera.position.set(0, 8, 15);
 camera.lookAt(0, 0, 0);
-
 
 // ====================
 // Renderer
@@ -51,7 +47,6 @@ renderer.setPixelRatio(
 
 document.body.appendChild(renderer.domElement);
 
-
 // ====================
 // Orbit Controls
 // ====================
@@ -61,95 +56,47 @@ const controls = new OrbitControls(
   renderer.domElement
 );
 
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+
 // ====================
-// Camera Focus Animation
+// Camera Focus
 // ====================
 
 let cameraTargetPosition = null;
 let cameraLookAtTarget = null;
-let selectedRing = null;
-let objectLabels = [];
 let isCameraFocusing = false;
 
-function highlightObject(object) {
-
-  // Remove previous highlight
-  if (selectedRing) {
-    selectedRing.parent?.remove(selectedRing);
-
-    selectedRing.geometry.dispose();
-    selectedRing.material.dispose();
-
-    selectedRing = null;
-  }
-
-  // Create highlight ring
-  const ringGeometry =
-    new THREE.TorusGeometry(
-      0.35,
-      0.035,
-      16,
-      64
-    );
-
-  const ringMaterial =
-    new THREE.MeshBasicMaterial({
-      color: 0x66ccff,
-      transparent: true,
-      opacity: 0.9
-    });
-
-  selectedRing =
-    new THREE.Mesh(
-      ringGeometry,
-      ringMaterial
-    );
-
-  selectedRing.rotation.x =
-    Math.PI / 2;
-
-  // Attach ring to selected object
-  object.add(selectedRing);
-}
-
 function focusOnObject(object) {
+  const worldPosition = new THREE.Vector3();
 
-  const worldPosition =
-    new THREE.Vector3();
+  object.getWorldPosition(worldPosition);
 
-  object.getWorldPosition(
-    worldPosition
-  );
+  cameraTargetPosition = worldPosition
+    .clone()
+    .add(new THREE.Vector3(3, 2, 5));
 
-  cameraTargetPosition =
-    worldPosition.clone().add(
-      new THREE.Vector3(3, 2, 5)
-    );
-
-  cameraLookAtTarget =
-    worldPosition.clone();
+  cameraLookAtTarget = worldPosition.clone();
 
   isCameraFocusing = true;
 }
 
+// User manually moves camera
+controls.addEventListener('start', () => {
+  isCameraFocusing = false;
+  cameraTargetPosition = null;
+  cameraLookAtTarget = null;
+});
 
-controls.enableDamping = true;
-controls.dampingFactor = 0.05;
+// ====================
+// Initial Camera State
+// ====================
 
-controls.addEventListener(
-  'start',
-  () => {
-    isCameraFocusing = false;
-    cameraTargetPosition = null;
-    cameraLookAtTarget = null;
-  }
-);
+const initialCameraPosition =
+  camera.position.clone();
 
-
-// Save initial camera position
-const initialCameraPosition = camera.position.clone();
-const initialTarget = controls.target.clone();
-
+const initialTarget =
+  controls.target.clone();
 
 // ====================
 // Star Field
@@ -157,12 +104,14 @@ const initialTarget = controls.target.clone();
 
 const starCount = 10000;
 
-const starPositions = new Float32Array(
-  starCount * 3
-);
+const starPositions =
+  new Float32Array(starCount * 3);
 
-for (let i = 0; i < starCount * 3; i += 3) {
-
+for (
+  let i = 0;
+  i < starCount * 3;
+  i += 3
+) {
   starPositions[i] =
     (Math.random() - 0.5) * 100;
 
@@ -198,7 +147,6 @@ const stars =
 
 scene.add(stars);
 
-
 // ====================
 // Spiral Galaxy
 // ====================
@@ -232,7 +180,7 @@ for (let i = 0; i < galaxyCount; i++) {
 
   galaxyPositions[i3] =
     Math.cos(spiralAngle) *
-      radius +
+    radius +
     spread;
 
   galaxyPositions[i3 + 1] =
@@ -240,7 +188,7 @@ for (let i = 0; i < galaxyCount; i++) {
 
   galaxyPositions[i3 + 2] =
     Math.sin(spiralAngle) *
-      radius +
+    radius +
     spread;
 }
 
@@ -287,7 +235,6 @@ const galaxyMaterial =
     depthWrite: false,
     blending:
       THREE.AdditiveBlending
-
   });
 
 const galaxy =
@@ -297,7 +244,6 @@ const galaxy =
   );
 
 scene.add(galaxy);
-
 
 // ====================
 // Celestial Objects
@@ -352,6 +298,8 @@ scene.add(celestialGroup);
 // Object Labels
 // ====================
 
+const objectLabels = [];
+
 celestialObjects.forEach(
   (object, index) => {
 
@@ -364,9 +312,7 @@ celestialObjects.forEach(
     label.textContent =
       object.name;
 
-    document.body.appendChild(
-      label
-    );
+    document.body.appendChild(label);
 
     objectLabels.push({
       element: label,
@@ -376,6 +322,55 @@ celestialObjects.forEach(
   }
 );
 
+// ====================
+// Highlight
+// ====================
+
+let selectedRing = null;
+
+function highlightObject(object) {
+
+  // Remove previous highlight
+  if (selectedRing) {
+
+    selectedRing.parent?.remove(
+      selectedRing
+    );
+
+    selectedRing.geometry.dispose();
+
+    selectedRing.material.dispose();
+
+    selectedRing = null;
+  }
+
+  // Create highlight ring
+  const ringGeometry =
+    new THREE.TorusGeometry(
+      0.35,
+      0.035,
+      16,
+      64
+    );
+
+  const ringMaterial =
+    new THREE.MeshBasicMaterial({
+      color: 0x66ccff,
+      transparent: true,
+      opacity: 0.9
+    });
+
+  selectedRing =
+    new THREE.Mesh(
+      ringGeometry,
+      ringMaterial
+    );
+
+  selectedRing.rotation.x =
+    Math.PI / 2;
+
+  object.add(selectedRing);
+}
 
 // ====================
 // Sun
@@ -400,7 +395,6 @@ const sun =
   );
 
 scene.add(sun);
-
 
 // ====================
 // Earth
@@ -433,7 +427,6 @@ earth.position.x = 5;
 
 earthOrbit.add(earth);
 
-
 // ====================
 // Mars
 // ====================
@@ -464,7 +457,6 @@ const mars =
 mars.position.x = 7;
 
 marsOrbit.add(mars);
-
 
 // ====================
 // Jupiter
@@ -497,16 +489,11 @@ jupiter.position.x = 9;
 
 jupiterOrbit.add(jupiter);
 
-
 // ====================
 // Interface
 // ====================
 
-
-// --------------------
 // Title
-// --------------------
-
 const title =
   document.createElement('div');
 
@@ -519,10 +506,9 @@ title.innerHTML = `
 
 document.body.appendChild(title);
 
-
-// --------------------
+// ====================
 // Statistics
-// --------------------
+// ====================
 
 const stats =
   document.createElement('div');
@@ -536,10 +522,9 @@ stats.innerHTML = `
 
 document.body.appendChild(stats);
 
-
-// --------------------
+// ====================
 // Controls Panel
-// --------------------
+// ====================
 
 const controlsPanel =
   document.createElement('div');
@@ -560,10 +545,9 @@ document.body.appendChild(
   controlsPanel
 );
 
-
-// --------------------
+// ====================
 // Information Panel
-// --------------------
+// ====================
 
 const infoPanel =
   document.createElement('div');
@@ -580,7 +564,6 @@ document.body.appendChild(
   infoPanel
 );
 
-
 // ====================
 // Reset View
 // ====================
@@ -596,6 +579,11 @@ resetButton.addEventListener(
 
     event.stopPropagation();
 
+    isCameraFocusing = false;
+
+    cameraTargetPosition = null;
+    cameraLookAtTarget = null;
+
     camera.position.copy(
       initialCameraPosition
     );
@@ -607,7 +595,6 @@ resetButton.addEventListener(
     controls.update();
   }
 );
-
 
 // ====================
 // Object Selection
@@ -623,17 +610,30 @@ window.addEventListener(
   'click',
   (event) => {
 
+    // Ignore UI clicks
+    if (
+      event.target.closest(
+        '.search-container'
+      ) ||
+      event.target.closest(
+        '.controls-panel'
+      ) ||
+      event.target.closest(
+        '.info-panel'
+      )
+    ) {
+      return;
+    }
+
     mouse.x =
       (event.clientX /
         window.innerWidth) *
-        2 -
-      1;
+      2 - 1;
 
     mouse.y =
       -(event.clientY /
         window.innerHeight) *
-        2 +
-      1;
+      2 + 1;
 
     raycaster.setFromCamera(
       mouse,
@@ -678,17 +678,17 @@ window.addEventListener(
           ${data.magnitude}
         </p>
       `;
-      highlightObject(
-  selectedObject
-);
 
-focusOnObject(
-  selectedObject
-);
+      highlightObject(
+        selectedObject
+      );
+
+      focusOnObject(
+        selectedObject
+      );
     }
   }
 );
-
 
 // ====================
 // Search
@@ -724,10 +724,9 @@ const searchResults =
     'search-results'
   );
 
-
-// --------------------
+// ====================
 // Search Input
-// --------------------
+// ====================
 
 searchInput.addEventListener(
   'input',
@@ -752,9 +751,6 @@ searchInput.addEventListener(
             .includes(query)
       );
 
-
-    // No results
-
     if (
       matches.length === 0
     ) {
@@ -773,9 +769,6 @@ searchInput.addEventListener(
 
       return;
     }
-
-
-    // Show results
 
     matches.forEach(
       (object) => {
@@ -798,7 +791,6 @@ searchInput.addEventListener(
           </span>
         `;
 
-
         result.addEventListener(
           'click',
           (event) => {
@@ -811,7 +803,6 @@ searchInput.addEventListener(
                   child.userData.id ===
                   object.id
               );
-
 
             if (
               selectedObject
@@ -843,15 +834,13 @@ searchInput.addEventListener(
                 </p>
               `;
 
-              selectedObject.scale.set(
-                1.5,
-                1.5,
-                1.5
+              highlightObject(
+                selectedObject
               );
 
-              focusOnObject(selectedObject);
-
-              highlightObject(selectedObject);
+              focusOnObject(
+                selectedObject
+              );
             }
 
             searchResults.innerHTML =
@@ -862,7 +851,6 @@ searchInput.addEventListener(
           }
         );
 
-
         searchResults.appendChild(
           result
         );
@@ -870,7 +858,6 @@ searchInput.addEventListener(
     );
   }
 );
-
 
 // ====================
 // Animation
@@ -882,9 +869,7 @@ function animate() {
     animate
   );
 
-
   // Planets around Sun
-
   earthOrbit.rotation.y +=
     0.01;
 
@@ -894,9 +879,7 @@ function animate() {
   jupiterOrbit.rotation.y +=
     0.004;
 
-
   // Planet rotation
-
   earth.rotation.y +=
     0.02;
 
@@ -906,107 +889,107 @@ function animate() {
   jupiter.rotation.y +=
     0.01;
 
-
   // Galaxy rotation
-
   galaxy.rotation.y +=
     0.0005;
 
-// ====================
-// Update Object Labels
-// ====================
-
-objectLabels.forEach(
-  (labelData) => {
-
-    const position =
-      new THREE.Vector3();
-
-    labelData.object.getWorldPosition(
-      position
-    );
-
-    // Put label slightly above object
-    position.y += 0.5;
-
-    position.project(camera);
-
-    const x =
-      (position.x * 0.5 + 0.5) *
-      window.innerWidth;
-
-    const y =
-      (-position.y * 0.5 + 0.5) *
-      window.innerHeight;
-
-    const isVisible =
-      position.z > -1 &&
-      position.z < 1 &&
-      Math.abs(position.x) < 1 &&
-      Math.abs(position.y) < 1;
-
-    if (isVisible) {
-
-      labelData.element.style.display =
-        'block';
-
-      labelData.element.style.left =
-        `${x}px`;
-
-      labelData.element.style.top =
-        `${y}px`;
-
-    } else {
-
-      labelData.element.style.display =
-        'none';
-    }
-  }
-);
-
+  // Rotate highlight ring
   if (selectedRing) {
-  selectedRing.rotation.z += 0.03;
-}
-
-
-  if (
-  isCameraFocusing &&
-  cameraTargetPosition
-) {
-
-  camera.position.lerp(
-    cameraTargetPosition,
-    0.05
-  );
-
-  if (cameraLookAtTarget) {
-
-    controls.target.lerp(
-      cameraLookAtTarget,
-      0.05
-    );
+    selectedRing.rotation.z +=
+      0.03;
   }
 
-  // Stop automatic focus when camera reaches target
+  // Camera focus animation
   if (
-    camera.position.distanceTo(
-      cameraTargetPosition
-    ) < 0.05
+    isCameraFocusing &&
+    cameraTargetPosition
   ) {
 
-    camera.position.copy(
-      cameraTargetPosition
+    camera.position.lerp(
+      cameraTargetPosition,
+      0.05
     );
 
-    controls.target.copy(
-      cameraLookAtTarget
-    );
+    if (cameraLookAtTarget) {
 
-    isCameraFocusing = false;
-    cameraTargetPosition = null;
-    cameraLookAtTarget = null;
+      controls.target.lerp(
+        cameraLookAtTarget,
+        0.05
+      );
+    }
+
+    if (
+      camera.position.distanceTo(
+        cameraTargetPosition
+      ) < 0.05
+    ) {
+
+      camera.position.copy(
+        cameraTargetPosition
+      );
+
+      controls.target.copy(
+        cameraLookAtTarget
+      );
+
+      isCameraFocusing = false;
+
+      cameraTargetPosition = null;
+      cameraLookAtTarget = null;
+    }
   }
-}
+
+  // ====================
+  // Update Object Labels
+  // ====================
+
+  objectLabels.forEach(
+    (labelData) => {
+
+      const position =
+        new THREE.Vector3();
+
+      labelData.object.getWorldPosition(
+        position
+      );
+
+      // Label above object
+      position.y += 0.5;
+
+      position.project(camera);
+
+      const x =
+        (position.x * 0.5 + 0.5) *
+        window.innerWidth;
+
+      const y =
+        (-position.y * 0.5 + 0.5) *
+        window.innerHeight;
+
+      const isVisible =
+        position.z > -1 &&
+        position.z < 1 &&
+        Math.abs(position.x) < 1 &&
+        Math.abs(position.y) < 1;
+
+      if (isVisible) {
+
+        labelData.element.style.display =
+          'block';
+
+        labelData.element.style.left =
+          `${x}px`;
+
+        labelData.element.style.top =
+          `${y}px`;
+
+      } else {
+
+        labelData.element.style.display =
+          'none';
+      }
+    }
+  );
 
   controls.update();
 
@@ -1017,7 +1000,6 @@ objectLabels.forEach(
 }
 
 animate();
-
 
 // ====================
 // Responsive
@@ -1038,4 +1020,4 @@ window.addEventListener(
       window.innerHeight
     );
   }
-);  
+);
