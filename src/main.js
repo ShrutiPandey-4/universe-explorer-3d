@@ -632,13 +632,17 @@ scene.add(marsOrbit);
 const marsGeometry =
   new THREE.SphereGeometry(
     0.45,
-    32,
-    32
+    64,
+    64
   );
 
 const marsMaterial =
-  new THREE.MeshBasicMaterial({
-    color: 0xdd5533
+  new THREE.MeshStandardMaterial({
+    color: 0xe85d3f,
+    roughness: 0.9,
+    metalness: 0.0,
+    emissive: 0x4a1208,
+    emissiveIntensity: 0.35
   });
 
 const mars =
@@ -651,7 +655,7 @@ mars.position.x = 7;
 
 marsOrbit.add(mars);
 
-// ====================
+/// ====================
 // Jupiter
 // ====================
 
@@ -663,13 +667,85 @@ scene.add(jupiterOrbit);
 const jupiterGeometry =
   new THREE.SphereGeometry(
     1.1,
-    32,
-    32
+    64,
+    64
+  );
+
+// Jupiter texture
+const jupiterCanvas =
+  document.createElement('canvas');
+
+jupiterCanvas.width = 512;
+jupiterCanvas.height = 256;
+
+const jupiterContext =
+  jupiterCanvas.getContext('2d');
+
+// Base
+jupiterContext.fillStyle = '#d9a66f';
+
+jupiterContext.fillRect(
+  0,
+  0,
+  512,
+  256
+);
+
+// Jupiter bands
+const bands = [
+  ['#f3d2a2', 0, 35],
+  ['#b9784f', 35, 28],
+  ['#e8bd88', 63, 40],
+  ['#c9875c', 103, 25],
+  ['#f0cfa0', 128, 45],
+  ['#b66d48', 173, 30],
+  ['#e5b47d', 203, 38],
+  ['#c27b52', 241, 15]
+];
+
+bands.forEach(
+  ([color, y, height]) => {
+
+    jupiterContext.fillStyle =
+      color;
+
+    jupiterContext.fillRect(
+      0,
+      y,
+      512,
+      height
+    );
+  }
+);
+
+// Great Red Spot
+jupiterContext.fillStyle =
+  '#b84d35';
+
+jupiterContext.beginPath();
+
+jupiterContext.ellipse(
+  370,
+  170,
+  45,
+  20,
+  0,
+  0,
+  Math.PI * 2
+);
+
+jupiterContext.fill();
+
+const jupiterTexture =
+  new THREE.CanvasTexture(
+    jupiterCanvas
   );
 
 const jupiterMaterial =
-  new THREE.MeshBasicMaterial({
-    color: 0xddaa77
+  new THREE.MeshStandardMaterial({
+    map: jupiterTexture,
+    roughness: 0.85,
+    metalness: 0.0
   });
 
 const jupiter =
@@ -681,7 +757,6 @@ const jupiter =
 jupiter.position.x = 9;
 
 jupiterOrbit.add(jupiter);
-
 // ====================
 // Interface
 // ====================
@@ -1097,17 +1172,17 @@ function animate() {
     0.007;
 
   jupiterOrbit.rotation.y +=
-    0.004;
+    0.005;
 
   // Planet rotation
   earth.rotation.y +=
     0.01;
 
   mars.rotation.y +=
-    0.015;
+    0.09;
 
   jupiter.rotation.y +=
-    0.01;
+    0.06;
 
   // Galaxy rotation
   galaxy.rotation.y +=
