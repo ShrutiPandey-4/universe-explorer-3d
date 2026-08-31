@@ -384,7 +384,7 @@ const sunGeometry =
   );
 
 const sunMaterial = new THREE.MeshBasicMaterial({
-  color: 0xffd54a
+  color: 0xffff66
 });
 
 const sun =
@@ -399,24 +399,28 @@ scene.add(sun);
 // Sun Glow
 // ====================
 
-const sunGlowGeometry = new THREE.SphereGeometry(
-  2.25,
-  32,
-  32
-);
+const sunGlowGeometry =
+  new THREE.SphereGeometry(
+    2.25,
+    64,
+    64
+  );
 
-const sunGlowMaterial = new THREE.MeshBasicMaterial({
-  color: 0xffdd55,
-  transparent: true,
-  opacity: 0.12,
-  depthWrite: false,
-  blending: THREE.AdditiveBlending
-});
+const sunGlowMaterial =
+  new THREE.MeshBasicMaterial({
+    color: 0xffd84d,
+    transparent: true,
+    opacity: 0.22,
+    side: THREE.BackSide,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending
+  });
 
-const sunGlow = new THREE.Mesh(
-  sunGlowGeometry,
-  sunGlowMaterial
-);
+const sunGlow =
+  new THREE.Mesh(
+    sunGlowGeometry,
+    sunGlowMaterial
+  );
 
 scene.add(sunGlow);
 // ====================
