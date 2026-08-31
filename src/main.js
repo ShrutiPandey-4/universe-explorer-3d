@@ -397,6 +397,60 @@ const sun =
 scene.add(sun);
 
 // ====================
+// Sun Glow
+// ====================
+
+const sunGlowGeometry =
+  new THREE.SphereGeometry(
+    2.35,
+    32,
+    32
+  );
+
+const sunGlowMaterial =
+  new THREE.MeshBasicMaterial({
+    color: 0xffaa33,
+    transparent: true,
+    opacity: 0.18,
+    depthWrite: false
+  });
+
+const sunGlow =
+  new THREE.Mesh(
+    sunGlowGeometry,
+    sunGlowMaterial
+  );
+
+scene.add(sunGlow);
+
+// ====================
+// Lighting
+// ====================
+
+const ambientLight =
+  new THREE.AmbientLight(
+    0xffffff,
+    0.35
+  );
+
+scene.add(ambientLight);
+
+const sunLight =
+  new THREE.PointLight(
+    0xffffff,
+    2.5,
+    100
+  );
+
+sunLight.position.set(
+  0,
+  0,
+  0
+);
+
+scene.add(sunLight);
+
+// ====================
 // Earth
 // ====================
 
@@ -413,8 +467,10 @@ const earthGeometry =
   );
 
 const earthMaterial =
-  new THREE.MeshBasicMaterial({
-    color: 0x3388ff
+  new THREE.MeshStandardMaterial({
+    color: 0x2878d8,
+    roughness: 0.7,
+    metalness: 0.05
   });
 
 const earth =
@@ -426,6 +482,34 @@ const earth =
 earth.position.x = 5;
 
 earthOrbit.add(earth);
+
+// ====================
+// Earth Atmosphere
+// ====================
+
+const atmosphereGeometry =
+  new THREE.SphereGeometry(
+    0.76,
+    32,
+    32
+  );
+
+const atmosphereMaterial =
+  new THREE.MeshBasicMaterial({
+    color: 0x55aaff,
+    transparent: true,
+    opacity: 0.18,
+    side: THREE.BackSide,
+    depthWrite: false
+  });
+
+const atmosphere =
+  new THREE.Mesh(
+    atmosphereGeometry,
+    atmosphereMaterial
+  );
+
+earth.add(atmosphere);
 
 // ====================
 // Mars
@@ -919,6 +1003,15 @@ function animate() {
   // Galaxy rotation
   galaxy.rotation.y +=
     0.0005;
+
+  sunGlow.scale.x =
+  1 + Math.sin(Date.now() * 0.002) * 0.02;
+
+sunGlow.scale.y =
+  1 + Math.sin(Date.now() * 0.002) * 0.02;
+
+sunGlow.scale.z =
+  1 + Math.sin(Date.now() * 0.002) * 0.02;  
 
   // Rotate highlight ring
   if (selectedRing) {
