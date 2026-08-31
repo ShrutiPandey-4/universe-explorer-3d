@@ -426,7 +426,7 @@ scene.add(sunGlow);
 const ambientLight =
   new THREE.AmbientLight(
     0xffffff,
-    0.7
+    2.1
   );
 
 scene.add(ambientLight);
@@ -434,7 +434,7 @@ scene.add(ambientLight);
 const sunLight =
   new THREE.PointLight(
     0xfff4d6,
-    3,
+    7,
     100
   );
 
@@ -446,57 +446,167 @@ sunLight.position.set(
 
 scene.add(sunLight);
 
-// ====================
+// --------------------
 // Earth
-// ====================
+// --------------------
 
-const earthOrbit =
-  new THREE.Group();
+const earthOrbit = new THREE.Group();
 
 scene.add(earthOrbit);
 
-const earthGeometry =
-  new THREE.SphereGeometry(
-    0.7,
-    32,
-    32
+// Earth geometry
+const earthGeometry = new THREE.SphereGeometry(
+  0.7,
+  64,
+  64
+);
+
+// --------------------
+// Earth Texture
+// --------------------
+
+const earthCanvas = document.createElement('canvas');
+
+earthCanvas.width = 512;
+earthCanvas.height = 256;
+
+const earthContext =
+  earthCanvas.getContext('2d');
+
+// Ocean
+earthContext.fillStyle = '#2563EB';
+
+earthContext.fillRect(
+  0,
+  0,
+  earthCanvas.width,
+  earthCanvas.height
+);
+
+// Continents
+earthContext.fillStyle = '#22C55E';
+
+const continents = [
+  [120, 80, 55, 30],
+  [175, 105, 45, 65],
+  [250, 75, 70, 35],
+  [315, 105, 55, 65],
+  [390, 80, 45, 35],
+  [420, 145, 30, 45],
+  [90, 155, 45, 30],
+  [225, 165, 40, 25]
+];
+
+continents.forEach(
+  ([x, y, width, height]) => {
+
+    earthContext.beginPath();
+
+    earthContext.ellipse(
+      x,
+      y,
+      width,
+      height,
+      Math.random() * 0.5,
+      0,
+      Math.PI * 2
+    );
+
+    earthContext.fill();
+  }
+);
+
+// Light green areas
+earthContext.fillStyle = '#86EFAC';
+
+for (let i = 0; i < 25; i++) {
+
+  const x = Math.random() * 512;
+  const y = Math.random() * 256;
+
+  const size =
+    Math.random() * 10 + 3;
+
+  earthContext.beginPath();
+
+  earthContext.arc(
+    x,
+    y,
+    size,
+    0,
+    Math.PI * 2
   );
 
+  earthContext.fill();
+}
+
+// Clouds / polar highlights
+earthContext.fillStyle = '#FFFFFF';
+
+for (let i = 0; i < 35; i++) {
+
+  const x = Math.random() * 512;
+  const y = Math.random() * 256;
+
+  const width = Math.random() * 18 + 5;
+  const height = Math.random() * 5 + 2;
+
+  earthContext.beginPath();
+
+  earthContext.ellipse(
+    x,
+    y,
+    width,
+    height,
+    0,
+    0,
+    Math.PI * 2
+  );
+
+  earthContext.fill();
+}
+
+const earthTexture =
+  new THREE.CanvasTexture(
+    earthCanvas
+  );
+
+// Earth material
 const earthMaterial =
   new THREE.MeshStandardMaterial({
-    color: 0x2288ff,
-    roughness: 0.55,
+    map: earthTexture,
+    roughness: 0.3,
     metalness: 0.0,
-    emissive: 0x06204d,
-    emissiveIntensity: 0.35
+
+    emissive: 0x1a6cff,
+    emissiveIntensity: 1.8
   });
 
-const earth =
-  new THREE.Mesh(
-    earthGeometry,
-    earthMaterial
-  );
+const earth = new THREE.Mesh(
+  earthGeometry,
+  earthMaterial
+);
 
 earth.position.x = 5;
 
 earthOrbit.add(earth);
 
-// ====================
+// --------------------
 // Earth Atmosphere
-// ====================
+// --------------------
 
 const atmosphereGeometry =
   new THREE.SphereGeometry(
     0.76,
-    32,
-    32
+    64,
+    64
   );
 
 const atmosphereMaterial =
   new THREE.MeshBasicMaterial({
-    color: 0x3399ff,
+    color: 0x60A5FA,
     transparent: true,
-    opacity: 0.22,
+    opacity: 0.55,
     side: THREE.BackSide,
     depthWrite: false,
     blending: THREE.AdditiveBlending
@@ -991,7 +1101,7 @@ function animate() {
 
   // Planet rotation
   earth.rotation.y +=
-    0.02;
+    0.01;
 
   mars.rotation.y +=
     0.015;
