@@ -1,10 +1,10 @@
 <div align="center">
 
-🌌 Universe Explorer 3D
+# 🌌 Universe Explorer 3D
 
-Interactive 3D Cosmic Visualization
+### Interactive 3D Cosmic Visualization
 
-Explore a stylized universe with Three.js, featuring stars, galaxy particles, planets, celestial objects, search, interactive labels, and camera controls.
+Explore stars, galaxies, planets, and celestial objects in an interactive 3D universe built with Three.js.
 
 <br>
 
@@ -12,98 +12,84 @@ Explore a stylized universe with Three.js, featuring stars, galaxy particles, pl
 
 <br><br>
 
-
-
-
-
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6%2B-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Three.js](https://img.shields.io/badge/Three.js-WebGL-black?style=for-the-badge&logo=three.js)
+![Vite](https://img.shields.io/badge/Vite-Fast%20Tooling-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-Styling-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 
 </div>
 
-✨ Overview
+---
 
-Universe Explorer 3D is an interactive browser-based cosmic visualization built with Three.js and Vite.
+## 📖 About The Project
 
-The project combines a 3D star field, a procedural galaxy particle system, a stylized solar system, and interactive celestial-object data into one visual experience.
+**Universe Explorer 3D** is an interactive browser-based cosmic visualization built using **Three.js, JavaScript, Vite, CSS3, and GLSL shaders**.
 
-The goal is to make exploring astronomical concepts more visual, interactive, and engaging rather than presenting them as static information.
+The project creates a visually immersive space environment containing stars, galaxy particles, a stylized solar system, and interactive celestial objects.
 
-🚀 Key Features
+Users can rotate and zoom through the 3D scene, search for celestial objects, select objects, and view their astronomical information.
 
-🌌 Cosmic Visualization
+---
 
-⭐ 10,000 background stars
+## ✨ Features
 
-🌀 30,000 procedural galaxy particles
+### 🌌 Cosmic Visualization
 
-🎨 Custom GLSL vertex and fragment shaders
+- ⭐ 10,000 background stars
+- 🌀 30,000 galaxy particles
+- 🎨 Custom GLSL shaders
+- 🔄 Animated galaxy rotation
+- 🌑 Interactive 3D space environment
 
-🌠 Animated galaxy rotation
+### ☀️ Solar System
 
-☀️ Solar System
+- ☀️ Glowing Sun
+- 🌍 Bright stylized Earth
+- 🔴 Detailed Mars
+- 🪐 Textured Jupiter
+- 🔄 Animated planetary movement
+- ✨ Planet visual effects
 
-☀️ Glowing Sun
+### 🔭 Celestial Object Explorer
 
-🌍 Bright stylized Earth with oceans, land, clouds, and atmosphere
+- 🖱️ Click celestial objects
+- 🏷️ Object labels
+- 🔎 Search celestial objects
+- 📋 Interactive information panel
+- 🎯 Object selection
+- 📊 Astronomical information
 
-🔴 Improved Mars appearance
+Information displayed includes:
 
-🪐 Textured Jupiter with atmospheric bands and a Great Red Spot
+- Object name
+- Object type
+- Distance
+- Redshift
+- Magnitude
 
-🔄 Animated planetary orbits and self-rotation
+### 🎮 Camera Controls
 
-🔭 Celestial Object Explorer
+- 🖱️ Drag to rotate
+- 🔍 Scroll to zoom
+- 🔄 Reset View
+- 🎥 Smooth camera controls using OrbitControls
 
-🖱️ Click celestial objects to inspect them
+---
 
-🏷️ Dynamic object labels
+## 🛠️ Tech Stack
 
-📊 Information panel
+| Technology | Purpose |
+|------------|---------|
+| **Three.js** | 3D rendering and scene management |
+| **JavaScript** | Application logic and interaction |
+| **Vite** | Development server and build tool |
+| **HTML5** | Application structure |
+| **CSS3** | UI and styling |
+| **GLSL** | Custom particle shaders |
 
-🔎 Search celestial objects by name
+---
 
-📍 Displays type, distance, redshift, and magnitude
-
-🎮 3D Controls
-
-Drag to rotate the scene
-
-Scroll to zoom
-
-Interactive camera controls
-
-Reset-view controls
-
-🛠️ Tech Stack
-
-Technology
-
-Purpose
-
-Three.js
-
-3D rendering and scene management
-
-JavaScript (ES Modules)
-
-Application logic
-
-Vite
-
-Development server and build tooling
-
-HTML5
-
-Application structure
-
-CSS3
-
-UI and glassmorphism styling
-
-GLSL
-
-Custom galaxy particle shaders
-
-📸 Preview
+## 📸 Preview
 
 <div align="center">
 
@@ -111,43 +97,53 @@ Custom galaxy particle shaders
 
 </div>
 
-🔎 Celestial Objects
+---
 
-The current dataset includes sample objects such as:
+## 🌠 Celestial Objects
 
-🌌 Andromeda Galaxy
+The current project contains sample celestial objects such as:
 
-🌫️ Orion Nebula
+| Object | Type |
+|--------|------|
+| 🌌 Andromeda Galaxy | Spiral Galaxy |
+| 🌫️ Orion Nebula | Nebula |
+| 🌌 Sombrero Galaxy | Spiral Galaxy |
+| 🌌 Whirlpool Galaxy | Spiral Galaxy |
+| 🌌 Triangulum Galaxy | Spiral Galaxy |
 
-🌌 Sombrero Galaxy
+Each object contains information such as its type, distance, redshift, and magnitude.
 
-🌌 Whirlpool Galaxy
+---
 
-🌌 Triangulum Galaxy
+## 🎮 Controls
 
-Selecting an object opens its information panel with astronomical data such as:
+| Action | Control |
+|--------|---------|
+| Rotate scene | 🖱️ Click + Drag |
+| Zoom | 🖱️ Scroll |
+| Select object | 🖱️ Click |
+| Search object | 🔎 Search bar |
+| Reset camera | 🔄 Reset View |
 
-Object type
+---
 
-Distance
+## 📂 Project Structure
 
-Redshift
-
-Magnitude
-
-📂 Project Structure
-
+```text
 universe-explorer-3d/
 │
 ├── public/
 │
 ├── src/
 │   ├── assets/
+│   │
 │   ├── data/
 │   │   └── celestialObjects.js
+│   │
 │   ├── shaders/
 │   │   ├── star.vert
 │   │   └── star.frag
+│   │
 │   ├── main.js
 │   └── style.css
 │
@@ -156,137 +152,3 @@ universe-explorer-3d/
 ├── package-lock.json
 ├── screenshot.png
 └── README.md
-
-🚀 Getting Started
-
-Prerequisites
-
-Make sure Node.js and npm are installed.
-
-1. Install dependencies
-
-npm install
-
-2. Start the development server
-
-npm run dev
-
-3. Open the application
-
-Open the local URL shown by Vite in your browser.
-
-Usually it will be:
-
-http://localhost:5173
-
-4. Build for production
-
-npm run build
-
-🎮 Controls
-
-Input
-
-Action
-
-🖱️ Drag
-
-Rotate the 3D scene
-
-🖱️ Scroll
-
-Zoom in / out
-
-🖱️ Click object
-
-Inspect celestial object
-
-🔎 Search
-
-Find an object by name
-
-🔄 Reset View
-
-Return to the default camera view
-
-🧠 How It Works
-
-User
- │
- ├── Search celestial object
- │          │
- │          ▼
- │    Match dataset
- │          │
- │          ▼
- │    Select object
- │          │
- │          ▼
- │    Show information
- │
- └── Interact with 3D scene
-            │
-            ▼
-      Three.js Camera
-            │
-            ▼
-     Cosmic Visualization
-            │
-      ┌─────┴─────┐
-      ▼           ▼
- Star Field    Galaxy Particles
-                    │
-                    ▼
-              GLSL Shaders
-
-🌟 Project Highlights
-
-Real-time 3D rendering in the browser
-
-Procedural particle-based galaxy
-
-Custom shader-based rendering
-
-Interactive astronomical data
-
-Searchable celestial objects
-
-Animated planetary system
-
-Responsive glass-style interface
-
-🔮 Future Improvements
-
-Planned ideas for future versions:
-
-🔭 Better astronomical textures
-
-🌍 More realistic planetary materials
-
-🪐 Additional planets and moons
-
-✨ Improved object highlighting
-
-🎯 Smooth camera focus on selected objects
-
-📈 More astronomical data visualizations
-
-🌌 More galaxy types
-
-📱 Further mobile optimization
-
-🚀 Production deployment
-
-📌 Project Status
-
-Active development 🚧
-
-The core 3D visualization and interactive exploration features are working. More visual effects, astronomical objects, and interaction features can be added as the project evolves.
-
-<div align="center">
-
-🌌 Explore. Discover. Visualize.
-
-Built with ❤️ using Three.js
-
-</div>
