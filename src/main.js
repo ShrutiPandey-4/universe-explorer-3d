@@ -579,11 +579,13 @@ resetButton.addEventListener(
 
     event.stopPropagation();
 
+    // Stop camera focus
     isCameraFocusing = false;
 
     cameraTargetPosition = null;
     cameraLookAtTarget = null;
 
+    // Reset camera
     camera.position.copy(
       initialCameraPosition
     );
@@ -593,6 +595,31 @@ resetButton.addEventListener(
     );
 
     controls.update();
+
+    // Remove selected ring
+    if (selectedRing) {
+
+      selectedRing.parent?.remove(
+        selectedRing
+      );
+
+      selectedRing.geometry.dispose();
+
+      selectedRing.material.dispose();
+
+      selectedRing = null;
+    }
+
+    // Reset information panel
+    infoPanel.innerHTML = `
+      <h2>Select an object</h2>
+      <p>Click a celestial object to explore it.</p>
+    `;
+
+    // Clear search
+    searchInput.value = '';
+
+    searchResults.innerHTML = '';
   }
 );
 
