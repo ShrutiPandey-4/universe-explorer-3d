@@ -151,4 +151,3 @@ universe-explorer-3d/
 ├── package.json
 ├── package-lock.json
 ├── screenshot.png
-└── README.md
