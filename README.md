@@ -8,7 +8,9 @@ Explore stars, galaxies, planets, and celestial objects in an interactive 3D uni
 
 <br>
 
-<img src="./screenshot.png" alt="Universe Explorer 3D Preview" width="900">
+<!-- <img src="C:\Dev\FinalProjects--yayyyyy--let'sgo\universe-explorer-3d\universe-explorer-3d\screenshot.png" alt="Universe Explorer 3D Preview" width="900"> -->
+
+![Universe Explorer 3D Preview](./screenshot.png)
 
 <br><br>
 
@@ -93,7 +95,9 @@ Information displayed includes:
 
 <div align="center">
 
-<img src="./screenshot.png" alt="Universe Explorer 3D" width="850">
+<!-- <img src="C:\Dev\FinalProjects--yayyyyy--let'sgo\universe-explorer-3d\universe-explorer-3d\screenshot.png" alt="Universe Explorer 3D" width="850"> -->
+
+![Universe Explorer 3D Preview](./screenshot.png)
 
 </div>
 
